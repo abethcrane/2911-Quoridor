@@ -4,12 +4,14 @@
 Craig and Beth's 2012s2 2911 Quoridor Project
 
 interfaces:
+
 board
 - islegalmove
  - checkwall
  - withinbounds
 - update walls
 - update player position
+- display
 
 game running
 - create board
@@ -17,6 +19,7 @@ game running
 - is finished
 - winner
 - numplayers
+- storeplayers
 
 player
 - whereami/position
@@ -26,7 +29,9 @@ player
 - place wall
 
 classes:
--
+- boardImp
+- gameImp
+- playerImp
 
 tests:
 each function of each interface
