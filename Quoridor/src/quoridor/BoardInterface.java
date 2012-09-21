@@ -10,7 +10,7 @@ public interface BoardInterface {
 	void placeWall(Board b, Player p, int x, int y);
 	
 	//moves the player ?assume isLegal Move has been called
-	void movePlayer(Player p, int x, int y);
+	boolean movePlayer(Player p, int x, int y);
 
 	//displays the board
 	void displayBoard();

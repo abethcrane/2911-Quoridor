@@ -50,7 +50,8 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public void movePlayer(Player p, int x, int y) {
+	public boolean movePlayer(Player p, int x, int y) {
+		boolean r = false;
 		if (isLegalMove(p,x,y) == true) {
 			int startx = p.x;
 			int starty = p.y;
@@ -58,8 +59,10 @@ public class Board implements BoardInterface {
 			board[x][y].playerNum = p.player;
 			p.x = x;
 			p.y = y;
+			//return true;
+			r = true;
 		}
-	
+		return r;
 	}
 
 	@Override
