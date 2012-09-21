@@ -63,12 +63,14 @@ public class Board implements BoardInterface {
 			if (d == 'h') {
 				if (board[x][y].h == false) {
 					board[x][y].h = true;
+					board[x][y+1].h = true;
 					p.useWall();
 					r = true;
 				}
 			} else if (d == 'v') {
 				if (board[x][y].v == false) {
 					board[x][y].v = true;
+					board[x+1][y].v = true;
 					p.useWall();
 					r = true;
 				}
