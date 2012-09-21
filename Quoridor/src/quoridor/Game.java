@@ -42,7 +42,12 @@ public class Game{
 	//if this returns false a invalid move was given, dont increment turnNumber
 	public static boolean processMove(String s,Player p,Board b) {
 		char[] a = s.toCharArray();
-		boolean r = b.movePlayer(p,Character.getNumericValue(a[1]),convertCharToInt(a[0]));
+		boolean r = false;
+		if (a.length == 3) {
+			r = b.placeWall(p, Character.getNumericValue(a[1]), convertCharToInt(a[0]), a[2]);
+		} else {
+			r = b.movePlayer(p,Character.getNumericValue(a[1]),convertCharToInt(a[0]));
+		}
 		b.displayBoard();
 		
 		return r;

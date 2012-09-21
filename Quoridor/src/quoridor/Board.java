@@ -23,18 +23,36 @@ public class Board implements BoardInterface {
 		boolean result = false;
 		if ((board[x][y].playerNum != 0)) {
 			// checks if the player is jumping two up or down
-		} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
-			result = true;
-			//check if the players is jumping two to the left or right
-		} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
-			result = true;
-			// checks if the player is moving diagonal
-		} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
-			result = true;
-		} else if ((Math.abs(p.getX()-x) == 1) && (p.getY() == y)) {
-			result = true;
-		} else if ((Math.abs(p.getY()-y) == 1) && (p.getX() == x)) {
-			result = true;
+		/* need to define what is a block	
+		} else if (p.getGoal() == 8) {
+			if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
+				result = true;
+				//check if the players is jumping two to the left or right
+			} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
+				result = true;
+				// checks if the player is moving diagonal
+			} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
+				result = true;
+			}
+			*/
+		// checks if they are trying to move up and stops if there is a wall
+		} else if ((p.getX()-x) == 1 && (p.getY() == y)) {
+			if (board[p.getX()][y].h == false){
+				result = true;	
+			}
+		//checks if they want to move down and stops if there is a wall
+		} else if ((p.getX()-x) == -1 && (p.getY() == y)) {
+			if (board[x][y].h == false) {
+				result = true;
+			}
+		} else if ((p.getY()-y) == -1 && (p.getX() == x)) {
+			if (board[x][y].v == false) {
+				result = true;
+			}
+		} else if ((p.getY()-y) == -1 && (p.getX() == x)) {
+			if (board[x][p.getY()].h == false) {
+				result = true;
+			}
 		}
 		if (result == false) {
 			System.out.println("invalid move");
@@ -43,9 +61,20 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public void placeWall(Board b, Player p, int x, int y) {
-		// TODO Auto-generated method stub
-		
+	public boolean placeWall(Player p, int x, int y,char d) {
+		boolean r = false;
+		if (d == 'h') {
+			if (board[x][y].h == false) {
+				board[x][y].h = true;
+				r = true;
+			}
+		} else if (d == 'v') {
+			if (board[x][y].v == false) {
+				board[x][y].v = true;
+				r = true;
+			}
+		}
+		return r;
 	}
 
 	@Override
@@ -70,7 +99,7 @@ public class Board implements BoardInterface {
 			System.out.print(" ");
 		     for (int j=0; j<9; j++) {
 		    	 if (board[i][j].h == false) {
-		    		 System.out.print(" ");
+		    		 System.out.print("  ");
 		    	 } else {
 		    		 System.out.print(" _");
 		    	 }
