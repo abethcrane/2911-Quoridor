@@ -17,13 +17,13 @@ public class Game{
 		String str = "";
 	    while (str != null && gameOver == false) {
 	    	if (turnNumber%2==0) {
-	    		System.out.print("> enter move for player one(current position is ["+one.getX()+","+one.getY()+ "]):");
+	    		System.out.print("> enter move for player one(current position is ["+intToString(one.getY())+","+one.getX()+ "]):");
 	    		str = in.readLine();
 		        if (processMove(str,one,b)==true) {;
 	        		turnNumber ++;
 		        }
 	    	} else {
-	    		System.out.print("> enter move for player two(current position is ["+two.getX()+","+two.getY()+ "]):");
+	    		System.out.print("> enter move for player two(current position is ["+intToString(two.getY())+","+two.getX()+ "]):");
 	    		str = in.readLine();
 		        if (processMove(str,two,b)==true) {;
 	        		turnNumber ++;
@@ -41,10 +41,20 @@ public class Game{
 	
 	//if this returns false a invalid move was given, dont increment turnNumber
 	public static boolean processMove(String s,Player p,Board b) {
-		String a[] = s.split(",");
-		boolean r = b.movePlayer(p,Integer.parseInt(a[0]),Integer.parseInt(a[1]));
+		char[] a = s.toCharArray();
+		boolean r = b.movePlayer(p,Character.getNumericValue(a[1]),convertCharToInt(a[0]));
 		b.displayBoard();
+		
 		return r;
 	}
+	//used to convert a-i to ints
+	private static int convertCharToInt(char s) {
+		return ((int)s-97);
+	}
 	
+	private static String intToString(int i) {
+		i = i + 97;
+		char a[] = Character.toChars(i);
+		return Character.toString(a[0]);
+	}
 }

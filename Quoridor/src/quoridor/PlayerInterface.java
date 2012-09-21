@@ -6,7 +6,7 @@ public interface PlayerInterface {
 	public int getY();
 	public int getGoal();
 	public int getPlayer();
-	public void setX();
-	public void setY();
+	public void setX(int i);
+	public void setY(int i);
 	
 }

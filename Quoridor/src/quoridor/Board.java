@@ -1,7 +1,7 @@
 package quoridor;
 public class Board implements BoardInterface {
 
-	public Cell board[][] = new Cell [9][9];
+	private Cell board[][] = new Cell [9][9];
 	public Board(Player one, Player two) {
 		for (int i=0; i<9; i++) {
 		     for (int j=0; j<9; j++) {
