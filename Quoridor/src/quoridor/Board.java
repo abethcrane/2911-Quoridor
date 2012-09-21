@@ -9,6 +9,9 @@ public class Board implements BoardInterface {
 		     }
 		 }
 		
+		board[0][4].playerNum = 1;
+		board[8][4].playerNum = 2;
+		
 		for (int i = 0; i < 9; i++) {
 			board[i][0].v = true;
 			board[0][i].h = true;
@@ -36,13 +39,14 @@ public class Board implements BoardInterface {
 	@Override
 	public void displayBoard() {
 		for (int i=0; i<9; i++) {
+			System.out.print(" ");
 		     for (int j=0; j<9; j++) {
 		    	 if (board[i][j].h == false) {
 		    		 System.out.print(" ");
 		    	 } else {
 		    		 System.out.print(" _");
 		    	 }
-		    		 
+		    	 System.out.print(" ");
 		        
 		     }
 		     System.out.println("");
@@ -51,19 +55,23 @@ public class Board implements BoardInterface {
 		    		 System.out.print(" ");
 		    	 } else {
 		    		 System.out.print("|");
+			    	 if (j == 0) {
+			    		 System.out.print(" ");
+			    	 }
 		    	 }
 		    	 if (board[i][j].playerNum == 0) {
 		    		 System.out.print("#");
 		    	 } else {
 		    		 System.out.print(board[i][j].playerNum);
 		    	 }
+		    	 System.out.print(" ");
 		    		 
 		        
 		     }	
 			 
-	         System.out.println("|");
+	         System.out.println("| ");
 		 }
-		System.out.println( " _ _ _ _ _ _ _ _ _");
+		System.out.println( "  _  _  _  _  _  _  _  _  _");
 		
 	}
 
