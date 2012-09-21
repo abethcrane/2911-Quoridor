@@ -1,16 +1,17 @@
 package quoridor;
+import java.math.*;
 public class Board implements BoardInterface {
 
 	public Cell board[][] = new Cell [9][9];
-	public Board() {
+	public Board(Player one, Player two) {
 		for (int i=0; i<9; i++) {
 		     for (int j=0; j<9; j++) {
 		    	 board[i][j] = new Cell();
 		     }
 		 }
 		
-		board[0][4].playerNum = 1;
-		board[8][4].playerNum = 2;
+		board[one.x][one.y].playerNum = one.player;
+		board[two.x][two.y].playerNum = two.player;
 		
 		for (int i = 0; i < 9; i++) {
 			board[i][0].v = true;
@@ -19,9 +20,27 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public int isLegalMove(Board b, Player P, int x, int y) {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean isLegalMove(Player p, int x, int y) {
+		boolean result = false;
+		if ((board[x][y].playerNum != 0)) {
+			// checks if the player is jumping two up or down
+		} else if ((Math.abs(p.x-x) == 2) && (p.y == y)) {
+			result = true;
+			//check if the players is jumping two to the left or right
+		} else if ((Math.abs(p.y-y) == 2) && (p.x == x)) {
+			result = true;
+			// checks if the player is moving diagonal
+		} else if ((Math.abs(p.x-x)==1) && (Math.abs(p.y-y)==1)) {
+			result = true;
+		} else if ((Math.abs(p.x-x) == 1) && (p.y == y)) {
+			result = true;
+		} else if ((Math.abs(p.y-y) == 1) && (p.x == x)) {
+			result = true;
+		}
+		if (result == false) {
+			System.out.println("invalid move");
+		}
+		return result;
 	}
 
 	@Override
@@ -31,9 +50,16 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public void movePlayer(Board b, Player p, int x, int y) {
-		// TODO Auto-generated method stub
-		
+	public void movePlayer(Player p, int x, int y) {
+		if (isLegalMove(p,x,y) == true) {
+			int startx = p.x;
+			int starty = p.y;
+			board[startx][starty].playerNum = 0;
+			board[x][y].playerNum = p.player;
+			p.x = x;
+			p.y = y;
+		}
+	
 	}
 
 	@Override
