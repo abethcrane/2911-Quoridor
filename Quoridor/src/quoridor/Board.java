@@ -22,15 +22,6 @@ public class Board implements BoardInterface {
 	public boolean isLegalMove(Player p, int x, int y) {
 		boolean result = false;
 		if ((board[x][y].playerNum != 0)) {
-			// checks if the player is jumping two up or down
-		//} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
-				//result = true;
-				//check if the players is jumping two to the left or right
-		//} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
-				//result = true;
-				// checks if the player is moving diagonal
-		//} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
-				//result = true;
 		// checks if they are trying to move up and stops if there is a wall
 		} else if ((p.getX()-x) == 1 && (p.getY() == y)) {
 			if (board[p.getX()][y].h == false){
@@ -49,7 +40,7 @@ public class Board implements BoardInterface {
 			if (board[x][p.getY()].v == false) {
 				result = true;
 			}
-		} else if (isLegalJumpMove(p,x,y)== true) {
+		} else if (isLegalJumpMove(p,x,y)== true || isLegalDiagonalMove(p,x,y) == true ) {
 			result = true;
 		}
 		if (result == false) {
@@ -200,6 +191,25 @@ public class Board implements BoardInterface {
 		}
 		return r;
 		
+	}
+	
+	private boolean isLegalDiagonalMove (Player p, int x, int y) {
+		boolean r = false;
+		//if moving left
+		if (p.getX()-x == 1) {
+			//if moving up
+			if (p.getY()-y == 1) {
+				if (board[x][y-1].playerNum != 0 && board[x][y-1].h == true) {
+					r = true;
+				} else if (board[x-1][y].playerNum != 0 && board[x+1][y].v == true) {
+					r = true;
+				}
+			}
+		}
+		if (r == true) {
+			System.out.println("legal diagonal");
+		}
+		return r;
 	}
 	
 }

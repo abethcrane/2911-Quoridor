@@ -9,7 +9,6 @@ public class Game{
 		
 		Player one = new Player(1);
 		Player two = new Player(2);
-		Player three = new Player(3);
 		Board b = new Board(one,two);
 		b.displayBoard();
 		int turnNumber = 0;
@@ -22,12 +21,14 @@ public class Game{
 	    		str = in.readLine();
 		        if (processMove(str,one,b)==true) {;
 	        		turnNumber ++;
+	        		b.displayBoard();
 		        }
 	    	} else {
 	    		System.out.print("> enter move for player two(current position is ["+intToString(two.getY())+","+two.getX()+ "] " +two.getNumWalls()+" walls left):");
 	    		str = in.readLine();
 		        if (processMove(str,two,b)==true) {;
 	        		turnNumber ++;
+	        		b.displayBoard();
 		        }
 	    	}
 	    	Player check = b.checkWinner(one, two);
@@ -59,7 +60,6 @@ public class Game{
 			System.out.println("Invalid Move: square out of range");
 		}
 		//System.out.print(27+"[2J");
-		b.displayBoard();
 		
 		return r;
 	}
