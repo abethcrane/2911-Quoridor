@@ -7,6 +7,7 @@ public class Player implements PlayerInterface{
 	private int player;
 	//goal x coordinate
 	private int goal;
+	private int numWalls;
 	
 	public int getX() {
 		return x;
@@ -42,7 +43,14 @@ public class Player implements PlayerInterface{
 			y = 4;
 			goal = 0;
 		}
+		numWalls = 10;
 		player = i;
 	}
 	
+	public int getNumWalls() {
+		return numWalls;
+	}
+	public void useWall() {
+		numWalls --;
+	}
 }

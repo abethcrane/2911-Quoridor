@@ -23,18 +23,14 @@ public class Board implements BoardInterface {
 		boolean result = false;
 		if ((board[x][y].playerNum != 0)) {
 			// checks if the player is jumping two up or down
-		/* need to define what is a block	
-		} else if (p.getGoal() == 8) {
-			if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
+		} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
 				result = true;
 				//check if the players is jumping two to the left or right
-			} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
+		} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
 				result = true;
 				// checks if the player is moving diagonal
-			} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
+		} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
 				result = true;
-			}
-			*/
 		// checks if they are trying to move up and stops if there is a wall
 		} else if ((p.getX()-x) == 1 && (p.getY() == y)) {
 			if (board[p.getX()][y].h == false){
@@ -49,8 +45,8 @@ public class Board implements BoardInterface {
 			if (board[x][y].v == false) {
 				result = true;
 			}
-		} else if ((p.getY()-y) == -1 && (p.getX() == x)) {
-			if (board[x][p.getY()].h == false) {
+		} else if ((p.getY()-y) == 1 && (p.getX() == x)) {
+			if (board[x][p.getY()].v == false) {
 				result = true;
 			}
 		}
@@ -63,15 +59,19 @@ public class Board implements BoardInterface {
 	@Override
 	public boolean placeWall(Player p, int x, int y,char d) {
 		boolean r = false;
-		if (d == 'h') {
-			if (board[x][y].h == false) {
-				board[x][y].h = true;
-				r = true;
-			}
-		} else if (d == 'v') {
-			if (board[x][y].v == false) {
-				board[x][y].v = true;
-				r = true;
+		if (isLegalWall(x,y,d) == true) {
+			if (d == 'h') {
+				if (board[x][y].h == false) {
+					board[x][y].h = true;
+					p.useWall();
+					r = true;
+				}
+			} else if (d == 'v') {
+				if (board[x][y].v == false) {
+					board[x][y].v = true;
+					p.useWall();
+					r = true;
+				}
 			}
 		}
 		return r;
@@ -94,6 +94,9 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
+	
+	// i is the rows(y)
+	//j is the coloum(x)
 	public void displayBoard() {
 		for (int i=0; i<9; i++) {
 			System.out.print(" ");
@@ -126,10 +129,10 @@ public class Board implements BoardInterface {
 		        
 		     }	
 			 
-	         System.out.println("| ");
+	         System.out.println("|"+i);
 		 }
 		System.out.println( "  _  _  _  _  _  _  _  _  _");
-		
+		System.out.println( "  a  b  c  d  e  f  g  h  i");
 	}
 
 	@Override
@@ -142,6 +145,25 @@ public class Board implements BoardInterface {
 		
 		return null;
 	}
-
-
+	
+	//may need to be changed to pass both players, for checking blocked paths
+	//checks that the wall is going to be placed within the borders of the game
+	// and wont collide with other walls
+	public boolean isLegalWall(int x, int y, char d) {
+		boolean r = false;
+		if (d == 'h') {
+			if ((x<8) && (board[x][y].h == false) && (board[x][y].h == false)) {
+				r = true;
+			}
+		}
+		if (d == 'v') {
+			if (y<8 && board[x][y].v == false && board[x+1][y].v == false) {
+				r = true;
+			}
+		}
+		
+		
+		return r;
+	}
+	
 }

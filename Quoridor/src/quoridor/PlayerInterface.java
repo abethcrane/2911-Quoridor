@@ -8,5 +8,7 @@ public interface PlayerInterface {
 	public int getPlayer();
 	public void setX(int i);
 	public void setY(int i);
+	public int getNumWalls();
+	public void useWall();
 	
 }
