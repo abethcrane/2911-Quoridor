@@ -9,9 +9,13 @@ board
 - islegalmove
  - checkwall
  - withinbounds
+ - canjump
+ - correct number of cells
 - update walls
 - update player position
 - display
+- canreachgoal
+- string of movesx
 
 game running
 - create board
@@ -20,6 +24,7 @@ game running
 - winner
 - numplayers
 - storeplayers
+- assign player numbers
 
 player
 - whereami/position
