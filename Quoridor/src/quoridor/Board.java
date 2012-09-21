@@ -23,14 +23,14 @@ public class Board implements BoardInterface {
 		boolean result = false;
 		if ((board[x][y].playerNum != 0)) {
 			// checks if the player is jumping two up or down
-		} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
-				result = true;
+		//} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
+				//result = true;
 				//check if the players is jumping two to the left or right
-		} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
-				result = true;
+		//} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
+				//result = true;
 				// checks if the player is moving diagonal
-		} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
-				result = true;
+		//} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
+				//result = true;
 		// checks if they are trying to move up and stops if there is a wall
 		} else if ((p.getX()-x) == 1 && (p.getY() == y)) {
 			if (board[p.getX()][y].h == false){
@@ -49,6 +49,8 @@ public class Board implements BoardInterface {
 			if (board[x][p.getY()].v == false) {
 				result = true;
 			}
+		} else if (isLegalJumpMove(p,x,y)== true) {
+			result = true;
 		}
 		if (result == false) {
 			System.out.println("invalid move");
@@ -151,10 +153,10 @@ public class Board implements BoardInterface {
 	//may need to be changed to pass both players, for checking blocked paths
 	//checks that the wall is going to be placed within the borders of the game
 	// and wont collide with other walls
-	public boolean isLegalWall(int x, int y, char d) {
+	private boolean isLegalWall(int x, int y, char d) {
 		boolean r = false;
 		if (d == 'h') {
-			if ((x<8) && (board[x][y].h == false) && (board[x][y].h == false)) {
+			if ( y < 8 &&(board[x][y].h == false) && (board[x][y].h == false)) {
 				r = true;
 			}
 		}
@@ -163,9 +165,41 @@ public class Board implements BoardInterface {
 				r = true;
 			}
 		}
+		if (r == false) {
+			System.out.println("illegal wall placement");
+		}
 		
 		
 		return r;
+	}
+	//checks if its legal to jump over a player
+	private boolean isLegalJumpMove(Player p, int x, int y) {
+		boolean r = false;
+		//if the player moves to the left
+		if (p.getX()-x==2 && p.getY() == y) {
+			// if there is a player one to the left
+			if (board[p.getX()-1][y].playerNum != 0) {
+				//return true (is a legal move)
+				r = true;
+			}
+		} else if (p.getX()-x==-2 && p.getY() == y) {
+			// if there is a player one to the left
+			if (board[p.getX()+1][y].playerNum != 0) {
+				//return true (is a legal move)
+				r = true;
+			}
+		// else if the player is moving two up	
+		} else if (p.getY()-y==2 && p.getX() == x) {
+			if (board[x][p.getY()-1].playerNum != 0) {
+				r = true;
+			}
+		} else if (p.getY()-y==-2 && p.getX() == x) {
+			if (board[x][p.getY()+1].playerNum != 0) {
+				r = true;
+			}
+		}
+		return r;
+		
 	}
 	
 }
