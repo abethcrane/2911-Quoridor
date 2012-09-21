@@ -12,6 +12,7 @@ public interface BoardInterface {
 	//moves the player ?assume isLegal Move has been called
 	boolean movePlayer(Player p, int x, int y);
 
+	Player checkWinner(Player one,Player two);
 	//displays the board
 	void displayBoard();
 }

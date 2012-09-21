@@ -1,5 +1,4 @@
 package quoridor;
-import java.math.*;
 public class Board implements BoardInterface {
 
 	public Cell board[][] = new Cell [9][9];
@@ -10,8 +9,8 @@ public class Board implements BoardInterface {
 		     }
 		 }
 		
-		board[one.x][one.y].playerNum = one.player;
-		board[two.x][two.y].playerNum = two.player;
+		board[one.getX()][one.getY()].playerNum = one.getPlayer();
+		board[two.getX()][two.getY()].playerNum = two.getPlayer();
 		
 		for (int i = 0; i < 9; i++) {
 			board[i][0].v = true;
@@ -24,17 +23,17 @@ public class Board implements BoardInterface {
 		boolean result = false;
 		if ((board[x][y].playerNum != 0)) {
 			// checks if the player is jumping two up or down
-		} else if ((Math.abs(p.x-x) == 2) && (p.y == y)) {
+		} else if ((Math.abs(p.getX()-x) == 2) && (p.getY() == y)) {
 			result = true;
 			//check if the players is jumping two to the left or right
-		} else if ((Math.abs(p.y-y) == 2) && (p.x == x)) {
+		} else if ((Math.abs(p.getY()-y) == 2) && (p.getX()== x)) {
 			result = true;
 			// checks if the player is moving diagonal
-		} else if ((Math.abs(p.x-x)==1) && (Math.abs(p.y-y)==1)) {
+		} else if ((Math.abs(p.getX()-x)==1) && (Math.abs(p.getY()-y)==1)) {
 			result = true;
-		} else if ((Math.abs(p.x-x) == 1) && (p.y == y)) {
+		} else if ((Math.abs(p.getX()-x) == 1) && (p.getY() == y)) {
 			result = true;
-		} else if ((Math.abs(p.y-y) == 1) && (p.x == x)) {
+		} else if ((Math.abs(p.getY()-y) == 1) && (p.getX() == x)) {
 			result = true;
 		}
 		if (result == false) {
@@ -53,12 +52,12 @@ public class Board implements BoardInterface {
 	public boolean movePlayer(Player p, int x, int y) {
 		boolean r = false;
 		if (isLegalMove(p,x,y) == true) {
-			int startx = p.x;
-			int starty = p.y;
+			int startx = p.getX();
+			int starty = p.getY();
 			board[startx][starty].playerNum = 0;
-			board[x][y].playerNum = p.player;
-			p.x = x;
-			p.y = y;
+			board[x][y].playerNum = p.getPlayer();
+			p.setX(x);
+			p.setY(y);
 			//return true;
 			r = true;
 		}
@@ -102,6 +101,17 @@ public class Board implements BoardInterface {
 		 }
 		System.out.println( "  _  _  _  _  _  _  _  _  _");
 		
+	}
+
+	@Override
+	public Player checkWinner(Player one, Player two) {
+		if (one.getX() == one.getGoal()) {
+			return one;
+		} else if (two.getX() == two.getGoal()) {
+			return two;
+		}
+		
+		return null;
 	}
 
 

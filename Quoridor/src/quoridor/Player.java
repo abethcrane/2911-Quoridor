@@ -2,18 +2,47 @@ package quoridor;
 
 public class Player implements PlayerInterface{
 
-	public int x;
-	public int y;
-	public int player;
+	private int x;
+	private int y;
+	private int player;
+	//goal x coordinate
+	private int goal;
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getPlayer() {
+		return player;
+	}
+	
+	public int getGoal() {
+		return goal;
+	}
+	
+	public void setX(int i) {
+		x = i;
+	}
+	
+	public void setY(int i) {
+		y = i;
+	}
 	
 	public Player(int i) {
 		if (i == 1) {
 			x = 0;
 			y = 4;
+			goal = 8;
 		} else {
 			x = 8;
 			y = 4;
+			goal = 0;
 		}
 		player = i;
 	}
+	
 }
