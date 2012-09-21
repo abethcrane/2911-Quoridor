@@ -1,9 +1,6 @@
 package quoridor;
 
 public interface BoardInterface {
-
-	//dont know if we need this
-	Board createBoard();
 	
 	//given the board and the x and y coordinates of a move checks if it 
 	//is a legal move
@@ -16,5 +13,5 @@ public interface BoardInterface {
 	void movePlayer(Board b, Player p, int x, int y);
 
 	//displays the board
-	void displayBoard(Board b);
+	void displayBoard();
 }

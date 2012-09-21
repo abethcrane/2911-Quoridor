@@ -1,11 +1,18 @@
 package quoridor;
-
 public class Board implements BoardInterface {
 
-	@Override
-	public Board createBoard() {
-		Board b = 
-		return null;
+	public Cell board[][] = new Cell [9][9];
+	public Board() {
+		for (int i=0; i<9; i++) {
+		     for (int j=0; j<9; j++) {
+		    	 board[i][j] = new Cell();
+		     }
+		 }
+		
+		for (int i = 0; i < 9; i++) {
+			board[i][0].v = true;
+			board[0][i].h = true;
+		}
 	}
 
 	@Override
@@ -27,9 +34,38 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public void displayBoard(Board b) {
-		// TODO Auto-generated method stub
+	public void displayBoard() {
+		for (int i=0; i<9; i++) {
+		     for (int j=0; j<9; j++) {
+		    	 if (board[i][j].h == false) {
+		    		 System.out.print(" ");
+		    	 } else {
+		    		 System.out.print(" _");
+		    	 }
+		    		 
+		        
+		     }
+		     System.out.println("");
+		     for (int j=0; j<9; j++) {
+		    	 if (board[i][j].v == false) {
+		    		 System.out.print(" ");
+		    	 } else {
+		    		 System.out.print("|");
+		    	 }
+		    	 if (board[i][j].playerNum == 0) {
+		    		 System.out.print("#");
+		    	 } else {
+		    		 System.out.print(board[i][j].playerNum);
+		    	 }
+		    		 
+		        
+		     }	
+			 
+	         System.out.println("|");
+		 }
+		System.out.println( " _ _ _ _ _ _ _ _ _");
 		
 	}
+
 
 }
