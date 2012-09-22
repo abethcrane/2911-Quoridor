@@ -5,6 +5,7 @@ public class Board implements BoardInterface {
 	final static int numCols = 9;
 	
 	private Cell board[][] = new Cell [numRows][numCols];
+	
 	public Board(Player one, Player two) {
 		for (int i=0; i < numRows; i++) {
 		     for (int j=0; j < numCols; j++) {
@@ -19,6 +20,7 @@ public class Board implements BoardInterface {
 			board[i][0].v = true;
 			board[0][i].h = true;
 		}
+		
 	}
 
 	@Override
@@ -148,17 +150,34 @@ public class Board implements BoardInterface {
 	//checks that the wall is going to be placed within the borders of the game
 	// and wont collide with other walls
 	private boolean isLegalWall(int x, int y, char d) {
+		//System.out.println("islegalwall - " + x + "," + y + " " + d + "  " + board[x][y].h);
 		boolean r = false;
+		// Check that it's within bounds and there currently isn't a wall there
 		if (d == 'h') {
-			if ( y < numCols-1 &&(board[x][y].h == false) && (board[x][y].h == false)) {
+			if ((y < numCols-1) &&(board[x][y].h == false) && (board[x][y].h == false)) {
 				r = true;
+				// Check that it doesn't cut off another player's path
+				// -1 to shift left, +1 to shift right
+				if (doesWallBlock(-1, x, y, d) && doesWallBlock(1, x, y+1, d)) {
+					r = false;
+				}
+
+			}
+
+			
+		} else if (d == 'v') {
+			if ( (x < numRows-1) && (board[x][y].v == false) && (board[x+1][y].v == false)) {
+				r = true;
+				// Check that it doesn't cut off another player's path
+				// -1 to shift left, +1 to shift right
+				if (doesWallBlock(-1, x, y, d) && doesWallBlock(1, x+1, y, d)) {
+					r = false;
+				}
 			}
 		}
-		if (d == 'v') {
-			if ( x < numRows-1 && board[x][y].v == false && board[x+1][y].v == false) {
-				r = true;
-			}
-		}
+
+
+		
 		if (r == false) {
 			System.out.println("illegal wall placement");
 		}
@@ -166,6 +185,61 @@ public class Board implements BoardInterface {
 		
 		return r;
 	}
+	
+	// searchDirection is left or right
+	// d is vertical or horizontal
+	
+	/*
+	 * start from the wall you're putting in
+	 * pretend it's in, and then there are a couple of things:
+	 * check if it forms a complete run from the left to the right
+	 *  and top to bottom if more players
+	 *  defining that as can you move solely in walls and make a path
+	 * if so, check if the player it affects is on the side closest to their wall
+	 * if so fine, if they're on the other side, not fine
+	 */			
+	private boolean doesWallBlock(int searchDirection, int x, int y, char d) {
+		System.out.print("wallblock " + searchDirection + " " +  x + ","+ y );
+		boolean r = false;
+		
+		if (x < 0 || x > numRows || y < 0 || y > numCols) {
+			r = true;//?
+		} else { 
+			//If searchDir = -1 and we hit an x of 0 then we stop, same with +1 and numCols
+			if (searchDirection == -1 && y == 0) {
+				if (d == 'h' || board[x][y].h == true) {
+					r = true;
+				}
+			} else if (searchDirection == 1 && y == numCols-1) {
+				if (d == 'h' || board[x][y].h == true) {
+					r = true;
+				}
+			} else {
+				// If there's a h wall to the left/right go to that cell
+				if (y+searchDirection >= 0 && y + searchDirection < numCols &&  board[x][y+searchDirection].h == true) {
+					r = doesWallBlock(searchDirection, x, y+searchDirection, d);
+				}
+
+				// If searching right we want the wall on the right
+				int wallSide = 0;
+				if (searchDirection == 1) {
+					wallSide = 1;
+				}
+				if (board[x][y+wallSide].v == true) {
+					//if (searchDirectin == -1) {
+					if (x+1 < numRows &&  y+wallSide < numCols &&  board[x+1][y+wallSide].v == true) {
+						r = doesWallBlock(searchDirection, x+1, y+1, 'v');
+					} else if (x-1 >= 0 && y+wallSide < numCols && board[x-1][y+wallSide].v == true) {
+						r= doesWallBlock(searchDirection, x-1, y+1, 'v');
+					}
+				}
+			}
+		}
+		System.out.println (" returning "+ r);
+		return r;
+	}
+	
+	
 	//checks if its legal to jump over a player
 	private boolean isLegalJumpMove(Player p, int x, int y) {
 		boolean r = false;
