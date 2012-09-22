@@ -1,10 +1,13 @@
 package quoridor;
 public class Board implements BoardInterface {
 
-	private Cell board[][] = new Cell [9][9];
+	final static int numRows = 9;
+	final static int numCols = 9;
+	
+	private Cell board[][] = new Cell [numRows][numCols];
 	public Board(Player one, Player two) {
-		for (int i=0; i<9; i++) {
-		     for (int j=0; j<9; j++) {
+		for (int i=0; i < numRows; i++) {
+		     for (int j=0; j < numCols; j++) {
 		    	 board[i][j] = new Cell();
 		     }
 		 }
@@ -12,7 +15,7 @@ public class Board implements BoardInterface {
 		board[one.getX()][one.getY()].playerNum = one.getPlayer();
 		board[two.getX()][two.getY()].playerNum = two.getPlayer();
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < numRows; i++) {
 			board[i][0].v = true;
 			board[0][i].h = true;
 		}
@@ -93,9 +96,9 @@ public class Board implements BoardInterface {
 	// i is the rows(y)
 	//j is the coloum(x)
 	public void displayBoard() {
-		for (int i=0; i<9; i++) {
+		for (int i=0; i<numRows; i++) {
 			System.out.print(" ");
-		     for (int j=0; j<9; j++) {
+		     for (int j=0; j<numCols; j++) {
 		    	 if (board[i][j].h == false) {
 		    		 System.out.print("  ");
 		    	 } else {
@@ -105,7 +108,7 @@ public class Board implements BoardInterface {
 		        
 		     }
 		     System.out.println("");
-		     for (int j=0; j<9; j++) {
+		     for (int j=0; j<numCols; j++) {
 		    	 if (board[i][j].v == false) {
 		    		 System.out.print(" ");
 		    	 } else {
@@ -147,12 +150,12 @@ public class Board implements BoardInterface {
 	private boolean isLegalWall(int x, int y, char d) {
 		boolean r = false;
 		if (d == 'h') {
-			if ( y < 8 &&(board[x][y].h == false) && (board[x][y].h == false)) {
+			if ( y < numCols-1 &&(board[x][y].h == false) && (board[x][y].h == false)) {
 				r = true;
 			}
 		}
 		if (d == 'v') {
-			if (y<8 && board[x][y].v == false && board[x+1][y].v == false) {
+			if (x<numRows-1 && board[x][y].v == false && board[x+1][y].v == false) {
 				r = true;
 			}
 		}

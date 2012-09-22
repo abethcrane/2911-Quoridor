@@ -41,11 +41,11 @@ public class Game{
 	    }
 	}
 	
-	//if this returns false a invalid move was given, dont increment turnNumber
+	//if this returns false a invalid move was given, don't increment turnNumber
 	public static boolean processMove(String s,Player p,Board b) {
 		char[] a = s.toCharArray();
 		boolean r = false;
-		if (convertCharToInt(a[0])<9 && Character.getNumericValue(a[1])<9) {
+		if (convertCharToInt(a[0])<Board.numRows && Character.getNumericValue(a[1])<b.numCols) {
 			if (a.length == 3) {
 				if (p.getNumWalls()>0) {
 					r = b.placeWall(p, Character.getNumericValue(a[1]), convertCharToInt(a[0]), a[2]);
@@ -63,6 +63,7 @@ public class Game{
 		
 		return r;
 	}
+	
 	//used to convert a-i to its
 	private static int convertCharToInt(char s) {
 		return ((int)s-97);
