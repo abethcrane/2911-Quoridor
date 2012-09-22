@@ -155,7 +155,7 @@ public class Board implements BoardInterface {
 			}
 		}
 		if (d == 'v') {
-			if (x<numRows-1 && board[x][y].v == false && board[x+1][y].v == false) {
+			if ( x < numRows-1 && board[x][y].v == false && board[x+1][y].v == false) {
 				r = true;
 			}
 		}
@@ -198,20 +198,33 @@ public class Board implements BoardInterface {
 	
 	private boolean isLegalDiagonalMove (Player p, int x, int y) {
 		boolean r = false;
-		//if moving left
-		if (p.getX()-x == 1) {
-			//if moving up
-			if (p.getY()-y == 1) {
-				if (board[x][y-1].playerNum != 0 && board[x][y-1].h == true) {
-					r = true;
-				} else if (board[x-1][y].playerNum != 0 && board[x+1][y].v == true) {
+		
+		int curX = p.getX();
+		int curY = p.getY();
+		// Check if we're changing X and Y by one each (valid diagonal)
+		if (Math.abs(curX-x) == 1 && Math.abs(curY-y) == 1) {
+			// We need to have a player at either one col different from us (in our jump direction)
+			if (board[curX][y].playerNum != 0) {
+				// If there's a vertical wall on the col on their other side, it's valid
+				if (board[curX][y+y-curY].v == true) {
+					r  = true;
+				}
+			} 
+
+			// Or we need to have a player at one row different from us (in our jump direction)
+			if (board[x][curY].playerNum != 0) {
+				// If there's a horizontal wall on the row on their other side, it's valid
+				if (board[x+x-curX][curY].h == true){ 
 					r = true;
 				}
 			}
+		
 		}
+		
 		if (r == true) {
 			System.out.println("legal diagonal");
 		}
+		
 		return r;
 	}
 	
