@@ -33,6 +33,7 @@ public class Player implements PlayerInterface{
 		y = i;
 	}
 	
+	//generalise this to have more players, but for now okay
 	public Player(int i) {
 		if (i == 1) {
 			x = 0;

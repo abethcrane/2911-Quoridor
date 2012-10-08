@@ -5,44 +5,59 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Game{
+
 	public static void main(String[] args) throws IOException {
-		
-		Player one = new Player(1);
-		Player two = new Player(2);
-		Board b = new Board(one,two);
-		b.displayBoard();
+
+		final int num_moves = 100;
+		final int num_players = 2;
+
+		Player[] players = new Player[num_players+1];
+		for (int i = 1; i <= num_players; i++) {
+			players[i] = new Player(i);
+		}
+
 		int turnNumber = 0;
-		boolean gameOver = false;
+		int totalTurnNumber = 0;
+		boolean gameOver = false;	
+		String[] moves = new String[num_moves];
+		String[] allMoves = new String[num_moves];
+		Board b = new Board(players);
+		b.displayBoard();
+		int playerTurn = 0;
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String str = "";
-	    while (str != null && gameOver == false) {
-	    	if (turnNumber%2==0) {
-	    		System.out.print("> enter move for player one(current position is ["+intToString(one.getY())+","+one.getX()+ "] "+one.getNumWalls()+" walls left):");
-	    		str = in.readLine();
-		        if (processMove(str,one,b)==true) {;
-	        		turnNumber ++;
-	        		b.displayBoard();
-		        }
-	    	} else {
-	    		System.out.print("> enter move for player two(current position is ["+intToString(two.getY())+","+two.getX()+ "] " +two.getNumWalls()+" walls left):");
-	    		str = in.readLine();
-		        if (processMove(str,two,b)==true) {;
-	        		turnNumber ++;
-	        		b.displayBoard();
-		        }
+		while (str != null && gameOver == false) {
+			if (turnNumber%2==0) {
+				playerTurn = 1;
+			} else {
+	    		playerTurn = 2;
 	    	}
-	    	Player check = b.checkWinner(one, two);
-	        if (b.checkWinner(one, two) != null) {
-	        	System.out.print("Player " + check.getPlayer() + " wins");
-	        	gameOver = true;
-	        }
-	        // if the move was valid increment turn number
 
-	    }
+			System.out.print("> enter move for player " + playerTurn + " (current position is ["+intToString(players[playerTurn].getY())+","+players[playerTurn].getX()+ "] "+players[playerTurn].getNumWalls()+" walls left):");
+			str = in.readLine();
+			/*(if (str == "u") {
+    			undoMove(moves, allMoves, turnNumber, totalTurnNumber);
+    		}
+    		else */if (processMove(str,players[playerTurn],b) == true) {
+    			moves[turnNumber] = str;
+    			turnNumber++;
+    			b.displayBoard();
+    		}
+
+    		Player check = b.checkWinner(players);
+    		if (check != null) {
+    			System.out.print("Player " + check.getPlayer() + " wins");
+    			gameOver = true;
+    		}
+    		// if the move was valid increment turn number
+    		printMoves(moves, turnNumber);
+
+		}
 	}
-	
+
 	//if this returns false a invalid move was given, don't increment turnNumber
-	public static boolean processMove(String s,Player p,Board b) {
+	public static boolean processMove(String s, Player p, Board b) {
 		char[] a = s.toCharArray();
 		boolean r = false;
 		if (convertCharToInt(a[0])<Board.numRows && Character.getNumericValue(a[1])<b.numCols) {
@@ -60,18 +75,25 @@ public class Game{
 			System.out.println("Invalid Move: square out of range");
 		}
 		//System.out.print(27+"[2J");
-		
+
 		return r;
 	}
-	
+
 	//used to convert a-i to its
 	private static int convertCharToInt(char s) {
 		return ((int)s-97);
 	}
-	
+
 	private static String intToString(int i) {
 		i = i + 97;
 		char a[] = Character.toChars(i);
 		return Character.toString(a[0]);
+	}
+
+	public static void printMoves(String[] moves, int turnNumber) {
+		for (int i = 0; i < turnNumber; i++) {
+			System.out.print(moves[i] + " ");
+		}
+		System.out.println();
 	}
 }

@@ -6,15 +6,16 @@ public class Board implements BoardInterface {
 	
 	private Cell board[][] = new Cell [numRows][numCols];
 	
-	public Board(Player one, Player two) {
+	public Board(Player[] players) {// Player one, Player two) {
 		for (int i=0; i < numRows; i++) {
 		     for (int j=0; j < numCols; j++) {
 		    	 board[i][j] = new Cell();
 		     }
 		 }
 		
-		board[one.getX()][one.getY()].playerNum = one.getPlayer();
-		board[two.getX()][two.getY()].playerNum = two.getPlayer();
+		for (int i = 1; i < players.length; i++) {
+			board[players[i].getX()][players[i].getY()].playerNum = players[i].getPlayer();
+		}
 		
 		for (int i = 0; i < numRows; i++) {
 			board[i][0].v = true;
@@ -136,11 +137,12 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public Player checkWinner(Player one, Player two) {
-		if (one.getX() == one.getGoal()) {
-			return one;
-		} else if (two.getX() == two.getGoal()) {
-			return two;
+	public Player checkWinner(Player[] players) {// Player one, Player two) {
+		
+		for (int i = 1; i < players.length; i++) {
+			if (players[i].getX() == players[i].getGoal()) {
+				return players[i];
+			}
 		}
 		
 		return null;
@@ -162,9 +164,7 @@ public class Board implements BoardInterface {
 					r = false;
 				}
 
-			}
-
-			
+			}			
 		} else if (d == 'v') {
 			if ( (x < numRows-1) && (board[x][y].v == false) && (board[x+1][y].v == false)) {
 				r = true;
@@ -176,8 +176,6 @@ public class Board implements BoardInterface {
 			}
 		}
 
-
-		
 		if (r == false) {
 			System.out.println("illegal wall placement");
 		}
