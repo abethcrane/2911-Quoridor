@@ -59,4 +59,8 @@ public class Player implements PlayerInterface{
 	public void useWall() {
 		numWalls --;
 	}
+	
+	public void unUseWall() {
+		numWalls ++;
+	}
 }

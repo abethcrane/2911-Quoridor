@@ -51,7 +51,8 @@ public class Game{
 				System.out.print("> enter move for player " + playerTurn + " (current position is ["+intToString(players[playerTurn].getY())+","+players[playerTurn].getX()+ "] "+players[playerTurn].getNumWalls()+" walls left):");
     			str = in.readLine();
     		}
-    		if (processMove(str,players[playerTurn],b) == true) {
+			
+    		if (processMove(str,players[playerTurn],b, false) == true) {
     			moves[turnNumber] = str;
     			allMoves[totalTurnNumber] = str;
     			turnNumber++;
@@ -71,13 +72,17 @@ public class Game{
 	}
 
 	//if this returns false a invalid move was given, don't increment turnNumber
-	public static boolean processMove(String s, Player p, Board b) {
+	public static boolean processMove(String s, Player p, Board b, boolean undo) {
 		char[] a = s.toCharArray();
 		boolean r = false;
 		if (convertCharToInt(a[0])<Board.numRows && Character.getNumericValue(a[1])<b.numCols) {
 			if (a.length == 3) {
 				if (p.getNumWalls()>0) {
-					r = b.placeWall(p, Character.getNumericValue(a[1]), convertCharToInt(a[0]), a[2]);
+					if (undo) {
+						r = b.removeWall(p, Character.getNumericValue(a[1]), convertCharToInt(a[0]), a[2]);
+					} else {
+						r = b.placeWall(p, Character.getNumericValue(a[1]), convertCharToInt(a[0]), a[2]);
+					}
 				} else {
 					System.out.println("out of walls");
 					r=false;
@@ -97,14 +102,21 @@ public class Game{
 		// move player's position back to where they were two moves ago
 		// do the same for the other player as well
 		// can only undo if you have more than 1 move
-		//undo walls as well!!
-		System.out.println("reverting player " + ((turnNumber -1)  % num_players + 1) + " to " + moves[turnNumber-3]);
-		processMove(moves[turnNumber-3], players[((turnNumber -1) % num_players + 1)], b);
-		System.out.println("reverting player " + ((turnNumber -2)  % num_players + 1) + " to " + moves[turnNumber-4]);
-		processMove(moves[turnNumber-4], players[((turnNumber -2)  % num_players)+1], b);
+	
+		for (int i = 1; i < players.length; i++) {
+			// if it's a wall remove it
+			if (moves[turnNumber-i].length() == 3) {
+				System.out.println("removing wall of player " + (((turnNumber -i)  % num_players) + 1) + " to " + moves[turnNumber-i]);
+				processMove(moves[turnNumber-i], players[((turnNumber-i) % num_players) + 1], b, true);
+			// else revert back to the previous position
+			} else {
+				System.out.println("reverting player " + ((turnNumber -i)  % num_players + 1) + " to " + moves[turnNumber-i-num_players]);
+				processMove(moves[turnNumber-i-num_players], players[((turnNumber-i) % num_players) +1], b, true);
+			}
+		}
+	 
 		b.displayBoard();
-		//return b;
-		
+	
 	}
 
 	//used to convert a-i to its

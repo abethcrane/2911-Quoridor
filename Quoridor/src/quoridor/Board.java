@@ -56,7 +56,7 @@ public class Board implements BoardInterface {
 	}
 
 	@Override
-	public boolean placeWall(Player p, int x, int y,char d) {
+	public boolean placeWall(Player p, int x, int y, char d) {
 		boolean r = false;
 		if (isLegalWall(x,y,d) == true) {
 			if (d == 'h') {
@@ -78,6 +78,27 @@ public class Board implements BoardInterface {
 		return r;
 	}
 
+	public boolean removeWall(Player p, int x, int y, char d) {
+		boolean r = false;
+		if (d == 'h') {
+			if (board[x][y].h == true) {
+				board[x][y].h = false;
+				board[x][y+1].h = false;
+				p.unUseWall();
+				r = true;
+			}
+		} else if (d == 'v') {
+			if (board[x][y].v == true) {
+				board[x][y].v = false;
+				board[x+1][y].v = false;
+				p.unUseWall();
+				r = true;
+			}
+		}
+		return r;
+		
+	}
+	
 	@Override
 	public boolean movePlayer(Player p, int x, int y) {
 		boolean r = false;
