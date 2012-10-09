@@ -36,12 +36,25 @@ public class Game{
 
 			System.out.print("> enter move for player " + playerTurn + " (current position is ["+intToString(players[playerTurn].getY())+","+players[playerTurn].getX()+ "] "+players[playerTurn].getNumWalls()+" walls left):");
 			str = in.readLine();
-			/*(if (str == "u") {
-    			undoMove(moves, allMoves, turnNumber, totalTurnNumber);
+			System.out.println("Str = " + str);
+			// If they're undoing we call the undo function, we then proceed play as normal
+			if (str.equals("u")) {
+				if (turnNumber < 2) {
+					System.out.println("Error: Not enough moves to undo");
+				} else { 
+	    			b = undoMove(b, moves, turnNumber);
+	    			allMoves[totalTurnNumber] = str;
+	    			totalTurnNumber++;
+	    			turnNumber -= 2;
+				}
+				System.out.print("> enter move for player " + playerTurn + " (current position is ["+intToString(players[playerTurn].getY())+","+players[playerTurn].getX()+ "] "+players[playerTurn].getNumWalls()+" walls left):");
+    			str = in.readLine();
     		}
-    		else */if (processMove(str,players[playerTurn],b) == true) {
+    		if (processMove(str,players[playerTurn],b) == true) {
     			moves[turnNumber] = str;
+    			allMoves[totalTurnNumber] = str;
     			turnNumber++;
+    			totalTurnNumber++;
     			b.displayBoard();
     		}
 
@@ -77,6 +90,14 @@ public class Game{
 		//System.out.print(27+"[2J");
 
 		return r;
+	}
+	
+	public static Board undoMove (Board b, String[] moves, int turnNumber) {
+		// move player's position back to where they were two moves ago
+		// do the same for the other player as well
+		// can only undo if you have more than 1 move
+		return b;
+		
 	}
 
 	//used to convert a-i to its

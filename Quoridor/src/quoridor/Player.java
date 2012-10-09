@@ -5,8 +5,10 @@ public class Player implements PlayerInterface{
 	private int x;
 	private int y;
 	private int player;
-	//goal x coordinate
-	private int goal;
+	public int maxGoalX;
+	public int maxGoalY;
+	public int minGoalX;
+	public int minGoalY;
 	private int numWalls;
 	
 	public int getX() {
@@ -21,9 +23,6 @@ public class Player implements PlayerInterface{
 		return player;
 	}
 	
-	public int getGoal() {
-		return goal;
-	}
 	
 	public void setX(int i) {
 		x = i;
@@ -38,11 +37,17 @@ public class Player implements PlayerInterface{
 		if (i == 1) {
 			x = 0;
 			y = 4;
-			goal = 8;
-		} else {
+			maxGoalX = 8;
+			minGoalX = 8;
+			maxGoalY = 8;
+			minGoalY = 0;
+		} else if (i == 2) {
 			x = 8;
 			y = 4;
-			goal = 0;
+			maxGoalX = 0;
+			minGoalX = 0;
+			maxGoalY = 8;
+			minGoalY = 0;
 		}
 		numWalls = 10;
 		player = i;

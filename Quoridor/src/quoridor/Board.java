@@ -140,7 +140,10 @@ public class Board implements BoardInterface {
 	public Player checkWinner(Player[] players) {// Player one, Player two) {
 		
 		for (int i = 1; i < players.length; i++) {
-			if (players[i].getX() == players[i].getGoal()) {
+			if (players[i].getX() <= players[i].maxGoalX 
+			 && players[i].getX() >= players[i].minGoalX
+			 && players[i].getY() <= players[i].maxGoalY 
+			 && players[i].getY() >= players[i].minGoalY) {
 				return players[i];
 			}
 		}
