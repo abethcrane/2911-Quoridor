@@ -5,22 +5,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Game{
+	
+	public static final int num_moves = 100;
+	public static final int num_players = 2;
 
-	public static void main(String[] args) throws IOException {
-
-		final int num_moves = 100;
-		final int num_players = 2;
-
-		Player[] players = new Player[num_players+1];
-		for (int i = 1; i <= num_players; i++) {
-			players[i] = new Player(i);
-		}
-
+	public static void main(String[] args) throws IOException {		
 		int turnNumber = 0;
 		int totalTurnNumber = 0;
 		boolean gameOver = false;	
 		String[] moves = new String[num_moves];
 		String[] allMoves = new String[num_moves];
+		
+		Player[] players = new Player[num_players+1];
+		for (int i = 1; i <= num_players; i++) {
+			players[i] = new Player(i);
+			moves[i-1] = intToString(players[i].getY()).concat(((Integer)players[i].getX()).toString());
+			allMoves[i-1] = moves[i-1];
+			System.out.println(moves[i-1]);
+			turnNumber += 1;
+			totalTurnNumber += 1;
+		}
+
 		Board b = new Board(players);
 		b.displayBoard();
 		int playerTurn = 0;
@@ -28,21 +33,17 @@ public class Game{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String str = "";
 		while (str != null && gameOver == false) {
-			if (turnNumber%2==0) {
-				playerTurn = 1;
-			} else {
-	    		playerTurn = 2;
-	    	}
-
+			playerTurn = (turnNumber % num_players) + 1;
+			
 			System.out.print("> enter move for player " + playerTurn + " (current position is ["+intToString(players[playerTurn].getY())+","+players[playerTurn].getX()+ "] "+players[playerTurn].getNumWalls()+" walls left):");
 			str = in.readLine();
 			System.out.println("Str = " + str);
 			// If they're undoing we call the undo function, we then proceed play as normal
 			if (str.equals("u")) {
-				if (turnNumber < 2) {
+				if (turnNumber < 2+num_players) {
 					System.out.println("Error: Not enough moves to undo");
 				} else { 
-	    			b = undoMove(b, moves, turnNumber);
+	    			undoMove(b, moves, players, turnNumber);
 	    			allMoves[totalTurnNumber] = str;
 	    			totalTurnNumber++;
 	    			turnNumber -= 2;
@@ -92,11 +93,17 @@ public class Game{
 		return r;
 	}
 	
-	public static Board undoMove (Board b, String[] moves, int turnNumber) {
+	public static void undoMove (Board b, String[] moves, Player[] players, int turnNumber) {
 		// move player's position back to where they were two moves ago
 		// do the same for the other player as well
 		// can only undo if you have more than 1 move
-		return b;
+		//undo walls as well!!
+		System.out.println("reverting player " + ((turnNumber -1)  % num_players + 1) + " to " + moves[turnNumber-3]);
+		processMove(moves[turnNumber-3], players[((turnNumber -1) % num_players + 1)], b);
+		System.out.println("reverting player " + ((turnNumber -2)  % num_players + 1) + " to " + moves[turnNumber-4]);
+		processMove(moves[turnNumber-4], players[((turnNumber -2)  % num_players)+1], b);
+		b.displayBoard();
+		//return b;
 		
 	}
 
