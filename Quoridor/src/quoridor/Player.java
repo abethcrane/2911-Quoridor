@@ -48,6 +48,20 @@ public class Player implements PlayerInterface{
 			minGoalX = 0;
 			maxGoalY = 8;
 			minGoalY = 0;
+		} else if (i == 3) {
+			x = 4;
+			y = 0;
+			maxGoalX = 8;
+			minGoalX = 0;
+			maxGoalY = 8;
+			minGoalY = 8;
+		} else if (i == 4) {
+			x = 4;
+			y = 8;
+			maxGoalX = 8;
+			minGoalX = 0;
+			maxGoalY = 0;
+			minGoalY = 0;
 		}
 		numWalls = 10;
 		player = i;
