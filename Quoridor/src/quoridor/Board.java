@@ -102,7 +102,7 @@ public class Board implements BoardInterface {
 	@Override
 	public boolean movePlayer(Player p, int x, int y, boolean undo) {
 		boolean r = false;
-		if (isLegalMove(p,x,y) == true || undo) {
+		if (undo || isLegalMove(p,x,y)) {
 			int startx = p.getX();
 			int starty = p.getY();
 			board[startx][starty].playerNum = 0;
@@ -293,24 +293,40 @@ public class Board implements BoardInterface {
 	}
 	
 	private boolean isLegalDiagonalMove (Player p, int x, int y) {
+		System.out.println("calling diagonal");
 		boolean r = false;
 		
 		int curX = p.getX();
 		int curY = p.getY();
 		// Check if we're changing X and Y by one each (valid diagonal)
 		if (Math.abs(curX-x) == 1 && Math.abs(curY-y) == 1) {
+			System.out.println("valid diagonal - x = " + x + " y = " + y + " cur x and y = " + curX + " and " + curY);
 			// We need to have a player at either one col different from us (in our jump direction)
 			if (board[curX][y].playerNum != 0) {
 				// If there's a vertical wall on the col on their other side, it's valid
-				if (board[curX][y+y-curY].v == true) {
+				// If jumping left then new Y is less than it, and we check its wall
+				int yWall = y;
+				// Else for right we check y+1
+				if (y > curY) {
+					yWall = y+1;
+				}
+				if (board[curX][yWall].v == true) {
 					r  = true;
 				}
 			} 
 
 			// Or we need to have a player at one row different from us (in our jump direction)
 			if (board[x][curY].playerNum != 0) {
+				int b = x+x-curX;
+				System.out.println("it's on the same y, diff x, trying to test" + b + " and y being cury = " + curY);
 				// If there's a horizontal wall on the row on their other side, it's valid
-				if (board[x+x-curX][curY].h == true){ 
+				// If jumping up then new X is less and we just check its wall
+				int xWall = x;
+				// If jumping down then we check if x+1 has a wall there, cause it's below x
+				if (x > curX) {
+					xWall = x+1;
+				}
+				if (board[xWall][curY].h == true){ 
 					r = true;
 				}
 			}
