@@ -134,7 +134,7 @@ public class Game{
 					r=false;
 				}
 			} else {
-				r = b.movePlayer(p,Character.getNumericValue(a[1]),convertCharToInt(a[0]));
+				r = b.movePlayer(p,Character.getNumericValue(a[1]),convertCharToInt(a[0]), undo);
 			}
 		} else {
 			System.out.println("Invalid Move: square out of range");

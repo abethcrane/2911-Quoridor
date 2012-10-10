@@ -100,9 +100,9 @@ public class Board implements BoardInterface {
 	}
 	
 	@Override
-	public boolean movePlayer(Player p, int x, int y) {
+	public boolean movePlayer(Player p, int x, int y, boolean undo) {
 		boolean r = false;
-		if (isLegalMove(p,x,y) == true) {
+		if (isLegalMove(p,x,y) == true || undo) {
 			int startx = p.getX();
 			int starty = p.getY();
 			board[startx][starty].playerNum = 0;
