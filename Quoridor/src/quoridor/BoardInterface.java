@@ -7,12 +7,12 @@ public interface BoardInterface {
 	boolean isLegalMove(Player P,int x,int y);
 	
 	//places a wall ?assume isLegalMove has been called
-	boolean placeWall(Player p, int x, int y,char d);
+	boolean placeWall(Player[] players,int player, int x, int y,char d);
 	
 	boolean removeWall(Player p, int x, int y, char d);
 	
 	//moves the player ?assume isLegal Move has been called
-	boolean movePlayer(Player p, int x, int y);
+	boolean movePlayer(Player p, int x, int y,boolean undo);
 
 	Player checkWinner(Player[] players);
 	//displays the board

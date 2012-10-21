@@ -33,15 +33,15 @@ public class Player implements PlayerInterface{
 	}
 	
 	//generalise this to have more players, but for now okay
-	public Player(int i) {
-		if (i == 1) {
+	public Player(int i, int num_players) {
+		if (i == 2) {
 			x = 0;
 			y = 4;
 			maxGoalX = 8;
 			minGoalX = 8;
 			maxGoalY = 8;
 			minGoalY = 0;
-		} else if (i == 2) {
+		} else if (i == 1) {
 			x = 8;
 			y = 4;
 			maxGoalX = 0;
@@ -63,7 +63,7 @@ public class Player implements PlayerInterface{
 			maxGoalY = 0;
 			minGoalY = 0;
 		}
-		numWalls = 10;
+		numWalls = 20/num_players;
 		player = i;
 	}
 	
@@ -77,4 +77,9 @@ public class Player implements PlayerInterface{
 	public void unUseWall() {
 		numWalls ++;
 	}
+	
+	public void setWalls(int i) {
+		numWalls = i;
+	}
+	
 }
