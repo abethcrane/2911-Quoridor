@@ -549,27 +549,26 @@ public class Board implements BoardInterface {
 				if ((board[i][j].h == false && b.board[i][j].h == true)) {
 					x = i;
 					y = j;
-					System.out.println("newwall");
 					return (new Wall(x,y,'h'));
 					
 				}
 				if ((board[i][j].v == false && b.board[i][j].v == true)) {
 					x = i;
 					y = j;
-					System.out.println("newwall");
 					return (new Wall(x,y,'v'));
 				}
 			}
 		}
-		System.out.println("no new wall detected");
+		print.printMessage("No new wall detected");
 		return null;
 	}
 	
+	// Find the position of a specified player on the board
 	public Position findPlayer(int playerNum) {
-		
 		for (int i = 0; i < numRows; i ++) {
-			for (int j = 0; j < numRows; j ++) {
+			for (int j = 0; j < numCols; j ++) {
 				if (board[i][j].playerNum == playerNum) {
+					// If found, return the position. Else null is returned.
 					return new Position(i,j,0,' ');
 				}
 			}
