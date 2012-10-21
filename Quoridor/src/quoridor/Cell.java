@@ -6,7 +6,7 @@ public class Cell {
 	public boolean v;
 	
 	public int playerNum;
-	
+
 	public Cell() {
 		h = false;
 		v = false;

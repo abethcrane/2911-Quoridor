@@ -2,37 +2,87 @@ package quoridor;
 
 public class Player implements PlayerInterface{
 
+	/**
+	 *  The x location of the player
+	 */
 	private int x;
+	
+	/**
+	 * The y location of the player 
+	 */
 	private int y;
+	
+	/**
+	 * The ID number of the player
+	 */
 	private int player;
+	
+	/**
+	 * The max x location for the player's x goal 
+	 */
 	public int maxGoalX;
+	
+	/**
+	 * The max y location for the player's y goal
+	 */
 	public int maxGoalY;
+	
+	/**
+	 * The min x location for the player's x goal 
+	 */
 	public int minGoalX;
+	
+	/**
+	 * THe min y location for the player's y goal 
+	 */
 	public int minGoalY;
+	
+	/**
+	 * The number of walls the player has left 
+	 */
 	private int numWalls;
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#getX()
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#getY()
+	 */
 	public int getY() {
 		return y;
 	}
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#getPlayer()
+	 */
 	public int getPlayer() {
 		return player;
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#setX(int)
+	 */
 	public void setX(int i) {
 		x = i;
 	}
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#setY(int)
+	 */
 	public void setY(int i) {
 		y = i;
 	}
-	
-	//generalise this to have more players, but for now okay
+
+	/**
+	 * Hardocdes in the starting position of the player, depending on their player ID
+	 * @param i The ID of the player
+	 * @param num_players The total number of players
+	 */
 	public Player(int i, int num_players) {
 		if (i == 2) {
 			x = 0;
@@ -63,21 +113,33 @@ public class Player implements PlayerInterface{
 			maxGoalY = 0;
 			minGoalY = 0;
 		}
-		numWalls = 20/num_players;
+		setWalls(20/num_players);
 		player = i;
 	}
 	
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#getNumWalls()
+	 */
 	public int getNumWalls() {
 		return numWalls;
 	}
+	/* (non-Javadoc)
+	 * @see quoridor.PlayerInterface#useWall()
+	 */
 	public void useWall() {
-		numWalls --;
+		numWalls--;
 	}
 	
+	/**
+	 * Increases the number of walls a player has, in the event of a wall placement being undone
+	 */
 	public void unUseWall() {
-		numWalls ++;
+		numWalls++;
 	}
 	
+	/**
+	 * @param i The number of walls the player has
+	 */
 	public void setWalls(int i) {
 		numWalls = i;
 	}
